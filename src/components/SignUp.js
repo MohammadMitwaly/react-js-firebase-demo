@@ -15,7 +15,7 @@ const SignUpPage = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const handleSubmitCreateUserFrom = async (e) => {
+  const handleSubmitCreateUserForm = async (e) => {
     // Stop page from refreshing on submit
     e.preventDefault();
 
@@ -53,7 +53,7 @@ const SignUpPage = () => {
           <h1 className="text-center mb-4">Create an account</h1>
 
           {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
-          <Form onSubmit={handleSubmitCreateUserFrom}>
+          <Form onSubmit={handleSubmitCreateUserForm}>
             <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />

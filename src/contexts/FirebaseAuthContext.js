@@ -24,6 +24,10 @@ export const FirebaseAuthProvider = ({ children }) => {
     return auth.signOut();
   };
 
+  const resetPassword = (email) => {
+    return auth.sendPasswordResetEmail(email);
+  };
+
   useEffect(() => {
     // This call is inisde of a useEffect because we don't want it to cause constant rerendering
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -39,6 +43,7 @@ export const FirebaseAuthProvider = ({ children }) => {
     signUp,
     logIn,
     logOut,
+    resetPassword,
   };
   return (
     <AuthContext.Provider value={value}>

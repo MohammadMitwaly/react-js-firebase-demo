@@ -5,28 +5,27 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
   const emailRef = useRef();
-  const passwordRef = useRef();
-  const { logIn } = useFirebaseAuth();
+  const { resetPassword } = useFirebaseAuth();
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
 
-  const handleSubmitLoginForm = async (e) => {
+  const handleResetPasswordFormSubmit = async (e) => {
     // Stop page from refreshing on submit
     e.preventDefault();
 
     const emailValue = emailRef.current.value;
-    const passValue = passwordRef.current.value;
 
     try {
+      setSuccessMsg("");
       setErrorMsg("");
       setLoading(true);
-      await logIn(emailValue, passValue);
-      history.push("/");
+      await resetPassword(emailValue);
+      setSuccessMsg("Email sent, check your inbox in order to reset password");
     } catch (err) {
-      setErrorMsg(`Login failed, with the following error:\n ${err}`);
+      setErrorMsg(`Sending email failed, with the following error:\n ${err}`);
     }
     setLoading(false);
   };
@@ -35,33 +34,25 @@ const LoginPage = () => {
     <>
       <Card>
         <Card.Body>
-          <h1 className="text-center mb-4">Login into your account</h1>
-
+          <h1 className="text-center mb-4">Send email to reset password</h1>
+          {successMsg && <Alert variant="success">{successMsg}</Alert>}
           {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
-          <Form onSubmit={handleSubmitLoginForm}>
+          <Form onSubmit={handleResetPasswordFormSubmit}>
             <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
             <Button type="submit" className="w-100">
-              Login
+              Send email
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/reset-password">Reset password here</Link>
+            <Link to="/login">Login</Link>
           </div>
         </Card.Body>
       </Card>
-
-      <div className="w-100 text-center mt-2">
-        If you don't have an account, <Link to="/signup">create one here!</Link>
-      </div>
     </>
   );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;
