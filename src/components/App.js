@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUpPage from "./SignUp";
 import Dashboard from "./Dashboard";
 import LoginPage from "./Login";
+import PrivateRoute from "./PrivateRoute";
 const App = () => {
   return (
     <Container
@@ -14,7 +15,7 @@ const App = () => {
         <Router>
           <FirebaseAuthProvider>
             <Switch>
-              <Route exact path="/" component={Dashboard} />
+              <PrivateRoute exact path="/" component={Dashboard} />
               <Route path="/signup" component={SignUpPage} />
               <Route path="/login" component={LoginPage} />
             </Switch>

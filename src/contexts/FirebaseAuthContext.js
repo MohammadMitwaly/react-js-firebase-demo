@@ -20,6 +20,10 @@ export const FirebaseAuthProvider = ({ children }) => {
     return auth.signInWithEmailAndPassword(email, password);
   };
 
+  const logOut = () => {
+    return auth.signOut();
+  };
+
   useEffect(() => {
     // This call is inisde of a useEffect because we don't want it to cause constant rerendering
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -34,6 +38,7 @@ export const FirebaseAuthProvider = ({ children }) => {
     currentUser,
     signUp,
     logIn,
+    logOut,
   };
   return (
     <AuthContext.Provider value={value}>
